@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Protected Treasure Hunt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #hiddenButton, #treasure, #newPasswordForm, #bankAccess, #carSelection, #nextLevel {
+            display: none;
+        }
+        .hidden-word {
+            color: blue;
+            cursor: pointer;
+        }
+        .strength {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Password Protected Treasure Hunt</h1>
+    <form id="loginForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="button" onclick="authenticate()">Login</button>
+    </form>
+
+    <div id="hiddenButton">
+        <button onclick="revealNewPasswordForm()">Click here to create a new password for your bank</button>
+    </div>
+
+    <div id="newPasswordForm">
+        <h2>Create a New Password</h2>
+        <label for="newPassword">New Password:</label><br>
+        <input type="password" id="newPassword" name="newPassword" oninput="checkPasswordStrength()" required><br>
+        <p class="strength" id="strengthMessage">Password Strength: </p>
+        <button type="button" onclick="saveNewPassword()">Save New Password</button>
+    </div>
+
+    <div id="bankAccess">
+        <h2>Access Your Bank</h2>
+        <p>Enter your new password to access your bank.</p>
+        <label for="bankPassword">Password:</label><br>
+        <input type="password" id="bankPassword" name="bankPassword" required><br><br>
+        <button type="button" onclick="verifyBankPassword()">Access Bank</button>
+    </div>
+
+    <div id="treasure">
+        <h2>Congratulations!</h2>
+        <p>You've found the <span class="hidden-word" onclick="showButton()">hidden treasure!</span></p>
+        <p id="bankContent" style="display:none;">You have 100000000000000000000 in your bank account!</p>
+        <p id="finalMessage" style="display:none;">Congratulations, you've accessed your bank account!</p>
+        <div id="carSelection" style="display:none;">
+            <h3>Select a Car to Proceed</h3>
+            <button onclick="selectCar('Economy Car')">Economy Car - $5000</button>
+            <button onclick="selectCar('Luxury Car')">Luxury Car - $50000</button>
+            <button onclick="selectCar('Scanner Car')">Scammer Car - $100000</button>
+        </div>
+    </div>
+
+    <div id="nextLevel">
+        <h2>Welcome to the Next Level!</h2>
+        <p>You've successfully purchased the Scammer Car and you finish the game good to you, your are the first one to finish the game </p>
+        <!-- Add content for the next level here -->
+    </div>
+
+    <script>
+       var savedBankPassword = "";
+var bankBalance = 100000000000000000000;
+
+function authenticate() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    
+    // List of valid usernames
+    var validUsernames = [
+        "user", "asim", "John", "Alice", "Michael", "Sophia", "David", "Emma", "James", "Olivia", "William", "Isabella",
+        "Daniel", "Charlotte", "Alexander", "Ava", "Matthew", "Mia", "Andrew", "Amelia", "Joseph", "Harper",
+        "Benjamin", "Evelyn", "Emily", "Daniel", "Abigail", "Christopher", "Ella", "Joshua", "Scarlett",
+        "Nicholas", "Avery", "Samuel", "Sofia", "Ryan", "Madison", "Jack", "Lily", "Nathan", "Grace",
+        "Jonathan", "Chloe", "Christian", "Victoria", "Anthony", "Riley", "Zachary", "Layla", "Tyler",
+        "Aria", "Brandon", "Zoe", "Jonathan", "Penelope", "Thomas", "Nora", "William", "Leah", "Gabriel",
+        "Elizabeth", "Ethan", "Hailey", "Andrew", "Lillian", "David", "Aubrey", "James", "Addison", "Jacob",
+        "Stella", "Logan", "Mackenzie", "Samuel", "Katherine", "Christopher", "Luna", "Luke", "Bella", "John",
+        "Nova", "Isaac", "Eleanor", "Dylan", "Hannah", "Nathan", "Samantha", "Jack", "Alyssa", "Jordan", "Lucy",
+        "Adam", "Anna", "Isaiah", "Sarah", "Jackson", "Violet", "Eric", "Audrey", "Charles", "Clara", "Jeremiah",
+        "Julia", "Nicholas", "Camila", "Jose", "Savannah", "Julian", "Maria"
+    ];
+
+    // Check if username is valid and password is correct
+    if (validUsernames.includes(username) && password === "hacker","kk") {
+        document.getElementById("loginForm").style.display = "none"; // Hide the login form
+        document.getElementById("treasure").style.display = "block"; // Show the treasure section
+    } else {
+        alert("Incorrect username or password. Please try again."); // Show an alert message
+    }
+}
+
+
+
+        function showButton() {
+            document.getElementById("hiddenButton").style.display = "block";
+        }
+
+        function revealNewPasswordForm() {
+            document.getElementById("hiddenButton").style.display = "none";
+            document.getElementById("newPasswordForm").style.display = "block";
+        }
+
+        function checkPasswordStrength() {
+            var password = document.getElementById("newPassword").value;
+            var strengthMessage = document.getElementById("strengthMessage");
+
+            var strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (strongPassword.test(password)) {
+                strengthMessage.textContent = "Password Strength: Strong";
+                strengthMessage.style.color = "green";
+            } else {
+                strengthMessage.textContent = "Password Strength: Weak";
+                strengthMessage.style.color = "red";
+            }
+        }
+
+        function saveNewPassword() {
+            var newPassword = document.getElementById("newPassword").value;
+            var strengthMessage = document.getElementById("strengthMessage").textContent;
+
+            if (strengthMessage.includes("Strong")) {
+                savedBankPassword = newPassword;
+                document.getElementById("newPasswordForm").style.display = "none";
+                document.getElementById("bankAccess").style.display = "block";
+            } else {
+                alert("Password is too weak. Please try again.");
+            }
+        }
+
+        function verifyBankPassword() {
+            var bankPassword = document.getElementById("bankPassword").value;
+            if (bankPassword === savedBankPassword) {
+                document.getElementById("bankAccess").style.display = "none";
+                document.getElementById("bankContent").style.display = "block";
+                document.getElementById("finalMessage").style.display = "block";
+                document.getElementById("carSelection").style.display = "block";
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+
+        function selectCar(car) {
+            if (car === "Scanner Car") {
+                alert("You have successfully purchased the Scammer Car!");
+                document.getElementById("carSelection").style.display = "none";
+                document.getElementById("nextLevel").style.display = "block";
+            } else {
+                alert("You need to purchase the right Car to proceed.");
+            }
+        }
+    </script>
+</body>
+</html>
